@@ -1,18 +1,17 @@
 import React from 'react';
-import { Timer } from './components/Timer';
+import { Input } from './components/Input';
 
 
 function App() {
-  return <div style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-evenly"}}>
-    <div>
-    <Timer cityOrCountry={'Israel'}></Timer>
-    <Timer cityOrCountry={'Russia'}></Timer>
-    </div>
-    <div>
-    <Timer cityOrCountry={'San Diego'}></Timer>
-    <Timer cityOrCountry={"Belarus"}></Timer>
-    </div>    
-  </div>
+  function processInput(value: string): string {
+    let res: string = '';
+   if(value.toLowerCase().includes("hello")){
+    res = "get tired from HELLO. It`s forbidden word!";
+
+   }
+    return res;
+  }
+  return <Input inputId={'input-1'} inputProcess={ processInput }  />
 }
 
 export default App;
