@@ -1,12 +1,13 @@
 import React from "react";
 import timeZones from "../time-zones";
 type TimerProps = {
-    cityOrCountry: string;
+    cityOrCountry: string|null;
+    inputId: string;
 }
 export const Timer: React.FC<TimerProps> = (props) => {
     // const indexProps = timeZones.findIndex(timeZone => {
     //     const JSONtimeZone = JSON.stringify(timeZone);
-    //     return JSONtimeZone.includes(props.cityOrCountry);
+    //     return JSONtimeZone.includes(""/"+props.cityOrCountry+""/");
     // }
         // Option 2:
     const indexProps = timeZones.findIndex(timeZone => 
@@ -18,6 +19,7 @@ export const Timer: React.FC<TimerProps> = (props) => {
      }, "") === props.cityOrCountry
         )    
     const timeZone = correctTimeZone(indexProps);
+    const timeZoneName = indexProps<0? "Israel" : props.cityOrCountry;
     const [time, setTime] = React.useState(new Date());
     function tick() {
         console.log("tick");
@@ -28,7 +30,7 @@ export const Timer: React.FC<TimerProps> = (props) => {
         return () => clearInterval(interval);
     }, [])
     return <div>
-        <h3>Time in time zone {timeZone}</h3>
+        <h3 style={{display: "block", textAlign: "center", fontSize: "2em"}}>Time in  {timeZoneName} </h3>
         <label style={{ display: "block", textAlign: "center", fontSize: "2em" }}>Time {time.toLocaleTimeString(undefined, { timeZone })}</label>
     </div>
 } 

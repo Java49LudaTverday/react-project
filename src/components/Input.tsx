@@ -1,32 +1,33 @@
 import React, { useEffect } from "react"
 import { Alert } from "./Alert"
-type InputProps ={
+type InputProps = { 
+    type: string;  
     inputId: string;
-    inputProcess: (value: string) => string;
+    inputProcess: (value: string, id: string) => string;
+    placeholder?: string;
 }
-export const Input: React.FC<InputProps> = ({inputId, inputProcess}) =>{
-    let inputElement:HTMLInputElement|null 
-    const [message, setMessage] = React.useState("");
-    //setMessage("");
-    function processGo():void {
-     const messageRet: string = inputProcess(inputElement!.value);
-     if (messageRet == ""){
-        inputElement!.value = "";
-     } else {
-        setMessage(messageRet);
-        setTimeout(() => {
-            setMessage("") ; 
-        }, 3000);        
-        inputElement!.value = "";
-     }
-       
-    }
-    useEffect(()=> {
+export const Input: React.FC<InputProps> = ({ inputId, inputProcess, placeholder }) => {
+    let inputElement: HTMLInputElement | null
+    useEffect(() => {
         inputElement = document.getElementById(inputId) as HTMLInputElement;
     })
-    return <div>
-        <input id={inputId}/>
+    const [message, setMessage] = React.useState("");
+    //setMessage("");
+    function processGo(): void {
+        const messageRet: string = inputProcess(inputElement!.value, inputId);
+        if (messageRet == "") {
+            inputElement!.value = "";
+        } else {
+            setMessage(messageRet);
+            setTimeout(() => {
+                setMessage("");
+            }, 3000);
+            inputElement!.value = "";
+        }
+    }
+    return <div style={{ display: "block", textAlign: "center", fontSize: "2em" }}>
+        <input id={inputId} placeholder={placeholder} />
         <button onClick={processGo}>GO</button>
-        {message && <Alert type="error" message = {message}/>}
+        {message && <Alert type="error" message={message} />}
     </div>
 } 
