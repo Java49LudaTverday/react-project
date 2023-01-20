@@ -1,5 +1,6 @@
 import React from "react";
 import timeZones from "../time-zones";
+
 type TimerProps = {
     cityOrCountry: string|null;
     inputId: string;
