@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Alert } from "./Alert"
 type InputProps = { 
-    type: string;  
+    type?: string;  
     inputId: string;
     inputProcess: (value: string) => string;
     placeholder?: string;

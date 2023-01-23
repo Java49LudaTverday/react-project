@@ -1,19 +1,29 @@
 import React from 'react';
-import { Timer } from './components/Timer';
+import { Input } from './components/Input';
+
 
 
 function App() {
-  
-  return <div style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-evenly"}}>
-    <div>
-    <Timer inputId={'Input-1'} ></Timer>
-    <Timer inputId={'Input-2'}  ></Timer>
-    </div>
-    <div>
-    <Timer inputId={'Input-3'}  ></Timer>
-    <Timer inputId={'Input-4'}  ></Timer>
-    </div>
-  </div>
+  const properties: React.CSSProperties = {
+    display: 'flex',
+    flexWrap: 'wrap'
+  }
+  const [colors, setColors] = React.useState<string[]>([]);
+  function creatingDivs(value: string): string{
+    const colors: string[] = value.split('#');
+    setColors(colors.slice());
+    return ''
+  }
+  function getDivs (colors:string[]): JSX.Element[]{
+    return colors.map(color => <div style={{width:"5vw", height:"5vw", backgroundColor: color}}></div>)
+  }
+  return <section style={{ display: 'flex', flexDirection: 'column' }} >
+    <Input inputId={''} inputProcess={creatingDivs}
+      placeholder='enter colors separated by #' style={{width:"50vw"}}/>
+    <section style={properties}>
+      {getDivs(colors)}
+    </section>
+  </section>
 
 }
 
