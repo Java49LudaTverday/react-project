@@ -1,13 +1,15 @@
 import React, { useEffect } from "react"
+import { JsxAttribute } from "typescript";
 import { Alert } from "./Alert"
 type InputProps = { 
     type: string;  
-    inputId: string;
     inputProcess: (value: string) => string;
     placeholder?: string;
+    styleProps?:any
 }
-export const Input: React.FC<InputProps> = ({ inputId, inputProcess, placeholder }) => {
+export const Input: React.FC<InputProps> = ({  inputProcess, placeholder, styleProps }) => {
     let inputElement: HTMLInputElement | null
+    const[inputId] = React.useState(Math.round(Math.random()*100000000)+'');
          useEffect(() => {
         inputElement = document.getElementById(inputId) as HTMLInputElement;
    })   
@@ -24,8 +26,8 @@ export const Input: React.FC<InputProps> = ({ inputId, inputProcess, placeholder
             inputElement!.value = "";
         }
     }
-    return <div style={{ display: "block", textAlign: "center", fontSize: "2em"}}>
-        <input id={inputId} placeholder={placeholder} />
+    return <div style={{ display: "block", textAlign: "center", fontSize: "2em" }}>
+        <input id={inputId} placeholder={placeholder} style = {styleProps} />
         <button onClick={processGo}>GO</button>
         {message && <Alert type="error" message={message} />}
     </div>
