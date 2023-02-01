@@ -11,8 +11,8 @@ export const Life: React.FC<Props> = ({ dimentions, ticInterval }) => {
     const [numbers, setNumbers] = React.useState<number[][]>([]);
     function tic() {
         if (lifeMatrix.current == null) {
-          lifeMatrix.current = new LifeMatrix(getRandomMatrix(dimentions, dimentions, 0, 1));
-         //lifeMatrix.current = new LifeMatrix(matrix5);
+        lifeMatrix.current = new LifeMatrix(getRandomMatrix(dimentions, dimentions, 0, 1));
+        // lifeMatrix.current = new LifeMatrix(matrix);
        }
         setNumbers(lifeMatrix.current.nextStep());
     }
@@ -25,7 +25,7 @@ export const Life: React.FC<Props> = ({ dimentions, ticInterval }) => {
         <Matrix numbers={numbers} />
     </div>
 }
-// let matrix = [[0,0,0,0,0],[0,0,0,0,0],[0,1,1,1,0],[0,0,0,0,0],[0,0,0,0,0]]
+ //let matrix = [[0,0,1,0,0],[0,0,1,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,1,0,0]]
 // let matrix2 = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,1,1,1,0],[0,1,1,1,0,0],[0,0,0,0,0,0], [0,0,0,0,0,0]];
 // let matrix3 = [[0,0,0,0,0],[0,1,0,0,0],[0,0,1,1,0],[0,1,1,0,0],[0,0,0,0,0]]
 // let matrix4 = [[0,1,0,0,0,0,0,0,0,0],[0,0,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],
