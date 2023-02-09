@@ -1,56 +1,35 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
-import { CounterSquare } from './components/CounerSquare';
-import { CounterMultiply } from './components/CounterMultiply';
-import { CounterUpdater } from './components/CounterUpdater';
-import { Login } from './components/Login';
-import { Logout } from './components/Logout';
-import { useSelector } from 'react-redux';
-import { Input } from './components/Input';
+import { Layout } from './components/navigators/Layout';
+import { Products } from './components/navigators/Products';
+import { BreadProducts } from './components/pages/BreadProducts';
+import { Customers } from './components/pages/Customers';
+import { DairyProducts } from './components/pages/DairyProducts';
+import { Home } from './components/pages/Home';
+import { Orders } from './components/pages/Orders';
+
 
 function App() {
 
-  const auth: string = useSelector<any, string>(state => state.auth.userName);
-  const [operand, setOperand] = React.useState(1);
-  const [factor, setFactor] = React.useState(10);
-
-  const authAdmin: boolean = isAdmin(auth);  
-
-  return <div style={{ textAlign: "center" }}>
-    {auth && <p> User: {auth}</p>}
-    {authAdmin && <div>
-      <Input placeholder='Enter operand' inputProcess={function (value: string): string {
-        setOperand(+value);
-        return '';
-      }} nameButton={'GO'}></Input>
-
-    </div>}
-    {auth && <div style={{ textAlign: "center" }}>
-      <Input placeholder='Enter factor' inputProcess={function (value: string): string {
-        setFactor(+value);
-        return '';
-      }} nameButton={'GO'}></Input>
-      <CounterUpdater operand={operand}></CounterUpdater>
-      <CounterSquare></CounterSquare>
-      <CounterMultiply factor={factor}></CounterMultiply>
-    </div>}
-    {auth && <Logout></Logout>}
-    {!auth && <div>
-      <Login ></Login>
-    </div>}
-  </div>
+  return <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<Home/>}></Route>
+        <Route path='customers' element={<Customers/>}/>
+        <Route path='orders' element={<Orders/>}></Route>
+        <Route path='products' element={<Products/>}>
+          <Route path='dairy' element={<DairyProducts/>}/>
+          <Route path='bread' element={<BreadProducts/>}/>
+        </Route>
+      </Route>
+    </Routes>
+  </BrowserRouter>
 }
 
 
 export default App;
-function isAdmin(userName:string): boolean {
-  let authAdmin: boolean = false;
-  const ADMIN: string = 'admin';
-  if (userName.includes(ADMIN)) {
-    authAdmin = true;
-  }
-  return authAdmin;
-}
+
 
 
 //// version checking  userAdmin///
