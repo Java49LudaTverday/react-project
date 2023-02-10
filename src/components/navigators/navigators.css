@@ -1,12 +1,18 @@
-.navigator-list {
+.navigator-list, .navigator-list-prod {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     list-style: none;
     width: 80vw;
 }
+
 @media(min-width: 560px){
     .navigator-list{
         flex-direction: row;
     }
+
+.navigator-list-prod{
+    flex-direction: column;
+    align-items: flex-end;
+}
 }

@@ -2,7 +2,7 @@ import { NavigatorProps } from "./NavigatorProps";
 
 export const productsConfig: NavigatorProps = {
     className: {
-        ulClassName: 'navigator-list',
+        ulClassName: 'navigator-list-prod',
         liClassName: 'navigator-item'
     },
     routers: [
