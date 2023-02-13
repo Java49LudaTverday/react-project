@@ -8,7 +8,7 @@ export const layoutConfig: NavigatorProps = {
     routers: [
         { path: '', label: 'Home' },
         { path: 'customers', label: 'Customers' },
-        { path: 'orders', label: 'Orders' },
-        { path: 'products', label: 'Products' }
+        { path: 'orders', label: 'Orders' }
+        //{ path: 'products', label: 'Products' }
     ]
 }
