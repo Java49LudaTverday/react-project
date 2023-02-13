@@ -1,0 +1,9 @@
+{
+    "minId": 1,
+    "maxID": 10000,
+    "department":[],
+    "minSalary": 5000,
+    "maxSalary": 40000,
+    "minBirthYear": 1950,
+    "maxBirthYear": 2008
+}

@@ -1,14 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { Box, Typography } from '@mui/material';
-import { BreadProducts } from './components/pages/BreadProducts';
-import { Customers } from './components/pages/Customers';
-import { DairyProducts } from './components/pages/DairyProducts';
-import { Home } from './components/pages/Home';
-import { Orders } from './components/pages/Orders';
-import { Navigator } from './components/navigators/Navigator'
 import { layoutConfig } from './models/layout-config';
-import { productsConfig } from './models/products-config';
+import { Navigator } from './components/navigators/Navigator';
+import { Employees } from './components/pages/Employees';
+import { Home } from './components/pages/Home';
 
 function App() {
 
@@ -16,12 +12,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Navigator config={layoutConfig} />}>
         <Route index element={<Home/>}></Route>
-        <Route path='customers' element={<Customers/>}/>
-        <Route path='orders' element={<Orders/>}></Route>
-        {/* <Route path='products' element={<Navigator config={productsConfig}/>}>
-          <Route path='dairy' element={<DairyProducts/>}/>
-          <Route path='bread' element={<BreadProducts/>}/>
-        </Route> */}
+        <Route path='employees' element={<Employees/>}/>
       </Route>
     </Routes>
   </BrowserRouter>
