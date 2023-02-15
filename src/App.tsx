@@ -4,15 +4,19 @@ import { Box, Typography } from '@mui/material';
 import { layoutConfig } from './models/layout-config';
 import { Navigator } from './components/navigators/Navigator';
 import { Employees } from './components/pages/Employees';
-import { Home } from './components/pages/Home';
+import { AddEmployee } from './components/pages/AddEmployee';
+import { AgeStatistics } from './components/pages/AgeStatistics';
+import { SalaryStatistics } from './components/pages/SalaryStatistics';
 
 function App() {
 
   return  <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Navigator config={layoutConfig} />}>
-        <Route index element={<Home/>}></Route>
-        <Route path='employees' element={<Employees/>}/>
+      <Route path='/' element={<Navigator routers={layoutConfig.routers}  />}>
+        <Route index element={<Employees/>}></Route>
+        <Route path='addEmployee' element={<AddEmployee/>}/>
+        <Route path='ageStatistics' element={<AgeStatistics/>}/>
+        <Route path='salaryStatistics' element={<SalaryStatistics/>}/>
       </Route>
     </Routes>
   </BrowserRouter>

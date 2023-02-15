@@ -1,7 +1,7 @@
 {
     "minId": 1,
     "maxID": 10000,
-    "department":[],
+    "department":["Marketing", "Sales", "Engineering", "Support", "Finance", "Development"],
     "minSalary": 5000,
     "maxSalary": 40000,
     "minBirthYear": 1950,
