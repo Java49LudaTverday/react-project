@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Employee } from "../models/Employee";
 
-const empl: Array<Employee> = []
-const initialState = {
-    employees: empl
+
+const initialState:{employees: Employee[]} = {
+    employees: []
 }
 const employeesSlice = createSlice({
     initialState : initialState,
