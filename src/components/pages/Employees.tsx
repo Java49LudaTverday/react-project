@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { Box,  } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Employee } from "../../models/Employee";
 import { DataGrid, GridColumns } from "@mui/x-data-grid";
@@ -15,15 +15,7 @@ export const Employees: React.FC = () => {
     ])
     const employees = useSelector<any, Employee[]>(state => state.employees.employees);
     return <Box sx={{ height: "80vh", width: "80vw" }}>
-        <DataGrid columns={columns.current} rows={employees} />
+        <DataGrid columns={columns.current} rows={employees} checkboxSelection />
     </Box>
 }
-function getListEmployees(employees: Array<Employee>): React.ReactNode {
-    return employees.map((empl, ind) => {
-        return <ListItem key={ind}>{`ID: ${empl.id} NAME: ${empl.name} 
-        BIRTHDAY: ${empl.birthDate} DEPARTMENT: ${empl.department} SALARY: ${empl.salary}`
-        }
-        </ListItem>
-    }
-    )
-}
+
