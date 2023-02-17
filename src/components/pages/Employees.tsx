@@ -20,12 +20,12 @@ export const Employees: React.FC = () => {
     const [selectionItems, setSelectionModel] = React.useState<GridSelectionModel>([]);
     console.log(selectionItems);
     const dispatch = useDispatch(); 
-    return <Box sx={{ height: "80vh", width: "80vw" }}>
+    return <Box sx={{ height: "70vh", width: "70vw" }}>
         <DataGrid columns={columns.current} rows={employees} checkboxSelection onSelectionModelChange={(newSelectionModel)=> {
             setSelectionModel(newSelectionModel);
         }}
         selectionModel={selectionItems}/>
-        {!!selectionItems.length && <IconButton aria-label="delete" size="small" onClick={()=> dispatch(employeesAction.deleteEmployee(selectionItems))}> 
+        {!!selectionItems.length && <IconButton aria-label="delete" size="large" onClick={()=> dispatch(employeesAction.deleteEmployee(selectionItems))}> 
         <DeleteIcon fontSize="inherit" /></IconButton>}
     </Box>
 }
