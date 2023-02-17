@@ -10,8 +10,8 @@ export const AgeStatistics: React.FC = () => {
     const employees = useSelector<any, Employee[]>(state => state.employees.employees);
    
     return <Box sx={{ width:'40vw', height: '40vh' }} >
-        {!employees.length && <Typography sx={{ fontSize: "1.8em" }}>Not statistics</Typography>}
-        {employees.length &&  <Statistics title={"Age Statistics"} gridProps={statAge(employees)}/>}
+        {employees.length ?  <Statistics title={"Age Statistics"} gridProps={statAge(employees)}/>:
+        <Typography sx={{ fontSize: "1.8em" }}>Not statistics</Typography>}
     </Box>
 }
 
