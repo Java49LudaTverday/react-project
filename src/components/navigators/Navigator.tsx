@@ -1,6 +1,6 @@
 import { NavigatorProps } from "../../models/NavigatorProps";
 import React from "react";
-import { Link,  Outlet } from "react-router-dom";
+import { Link,  Outlet, useNavigate } from "react-router-dom";
 import { AppBar, Box, Tab, Tabs } from "@mui/material";
 
 export const Navigator: React.FC<NavigatorProps> = ({ routers }) => {
@@ -8,6 +8,10 @@ export const Navigator: React.FC<NavigatorProps> = ({ routers }) => {
     function changeTabNumber(event: any, newNumber: number) {
         setTabNumber(newNumber);
     }
+    const navigate = useNavigate();
+    React.useEffect(()=> {
+        navigate(routers[0].path);
+    }, []);    
     return <Box sx={{ marginTop: "15vh" }}>
         <AppBar sx={{ backgroundColor: "lightgrey" }}>
             <Tabs value={tabNumber} onChange={changeTabNumber}>
