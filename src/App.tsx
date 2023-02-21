@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, RouterProps } from 'react-router-dom';
 import './App.css';
 import { Box, Typography } from '@mui/material';
 import { layoutConfig } from './models/layout-config';
@@ -10,24 +10,39 @@ import { SalaryStatistics } from './components/pages/SalaryStatistics';
 import { useSelector } from 'react-redux';
 import { Login } from './components/pages/Login';
 import { Logout } from './components/pages/Logout';
+import { useEffect, useState } from 'react';
+import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
 
 
 function App() {
   const auth: string = useSelector<any, string>(state => state.auth.authenticated);
+  const [routes, setRoutes] = useState <RoutersProps[]>(layoutConfig.routers);
+  useEffect(() => {
+    if(!auth){
+      setRoutes(layoutConfig.routers.filter(route => route.path == 'login'))
+    } else if (!auth.includes('admin')){
+      setRoutes(layoutConfig.routers.filter(route => route.flAuth));
+    } else {
+      setRoutes(layoutConfig.routers.filter(route=> route.flAdmin));
+    }
+  }, [auth])
+
 
   return <Box>
-    {!auth && <Login></Login>}
-    {auth && <BrowserRouter>
+    {/* {!auth && <Login></Login>} */}
+    <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Navigator routers={layoutConfig.routers} />}>
-          <Route index element={<Employees />}></Route>
+        <Route path='/' element={<Navigator routers={routes } />}>
           <Route path='addEmployee' element={<AddEmployee />} />
+          <Route index element={<Employees />}></Route>
           <Route path='ageStatistics' element={<AgeStatistics />} />
           <Route path='salaryStatistics' element={<SalaryStatistics />} />
-          <Route path='logout' element={<Logout/>}/>
+          <Route path='logout' element={<Logout />} />
+          <Route path='login' element={<Login />} />
+
         </Route>
       </Routes>
-    </BrowserRouter>}
+    </BrowserRouter>
   </Box>
   // return <Box sx={{width: "50vw", height: "50vh", border: "solid 1px red", 
   // backgroundColor:{xs: "red", sm: "green", md:"black"}}}>
@@ -37,6 +52,6 @@ function App() {
 
 
 export default App;
-
+/*layoutConfig.routers*/
 
 
