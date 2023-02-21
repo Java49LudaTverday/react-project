@@ -17,6 +17,10 @@ import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
 function App() {
   const auth: string = useSelector<any, string>(state => state.auth.authenticated);
   const [routes, setRoutes] = useState <RoutersProps[]>(layoutConfig.routers);
+  layoutConfig.routers.forEach((route, index) => {
+    if(route.path == 'logout'){
+      layoutConfig.routers[index].label=`UserName: ${auth} `;
+    }})
   useEffect(() => {
     if(!auth){
       setRoutes(layoutConfig.routers.filter(route => route.path == 'login'))
