@@ -2,9 +2,6 @@ import { Employee } from "../models/Employee";
 const PERCENT = 10;
 const BORDER_SALARY = 20000;
 export class Company {
-    // constructor(private employees: Employee[]){
-
-    // }
     private employees: Employee[] = [];
     addEmployee(employee: Employee): void {
         this.employees.push(employee);
