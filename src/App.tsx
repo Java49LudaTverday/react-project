@@ -12,6 +12,7 @@ import { Login } from './components/pages/Login';
 import { Logout } from './components/pages/Logout';
 import { useEffect, useState } from 'react';
 import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
+import { Generation } from './components/pages/Generation';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route index element={<Employees />}></Route>
           <Route path='ageStatistics' element={<AgeStatistics />} />
           <Route path='salaryStatistics' element={<SalaryStatistics />} />
+          <Route path='generation' element={<Generation />}/>
           <Route path='logout' element={<Logout />} />
           <Route path='login' element={<Login />} />
 

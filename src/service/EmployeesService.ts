@@ -31,14 +31,16 @@ export function statSalary(employees: Array<Employee>): Stat {
         if (empl.salary > res.max) {
             res.max = empl.salary
         }
-        res.avr +=  Math.floor(empl.salary / employees.length);
+        res.avr += Math.floor(empl.salary / employees.length);
         return res;
     }, { min: employees[0].salary, max: employees[0].salary, avr: 0 })
 }
 
-export function createRandomEmployee(employees: Employee[]): Employee {
+//export function createRandomEmployee(employees: Employee[]): Employee {
+    export function createRandomEmployee(): Employee {
     return {
-        id: getID(employees),
+        // id: getID(employees),
+        id: 0,
         name: getRandomName(),
         birthDate: getBirthDate(),
         department: configEmpl.department[getRandomNumber(0, configEmpl.department.length)],
@@ -59,10 +61,10 @@ function getBirthDate(): string {
 
 function getID(employees: Employee[]): number {
     let id: number = getRandomNumber(configEmpl.minId, configEmpl.maxID);
-    let res: boolean = isIDUnique(employees,id);
+    let res: boolean = isIDUnique(employees, id);
     while (res) {
         id = getRandomNumber(configEmpl.minId, configEmpl.maxID);
-        res = isIDUnique(employees,id);
+        res = isIDUnique(employees, id);
     }
     return id;
 }
@@ -74,5 +76,5 @@ function getAgeEmployee(employee: Employee, currentYear: number): number {
 }
 
 function isIDUnique(employees: Employee[], id: number): boolean {
-    return employees.reduce((res, empl) => empl.id === id ? res = true : res , false)
+    return employees.reduce((res, empl) => empl.id === id ? res = true : res, false)
 }

@@ -4,13 +4,14 @@ import { Employee } from "../../models/Employee";
 import { authActions } from "../../redux/authSlice";
 import { employeesAction } from "../../redux/employeesSlice";
 import { createRandomEmployee } from "../../service/EmployeesService";
+import { EmployeeForm } from "../forms/EmployeeForm";
 
 export const AddEmployee: React.FC = () => {
     const employees = useSelector<any, Employee[]>(state => state.employees.employees);
     const auth: string = useSelector<any, string>(state => state.auth.authenticated);
     const dispatch = useDispatch();
-    return <Stack sx={{ width: "30vw" }}>
-        <Button onClick={() => dispatch(employeesAction.addEmployee(createRandomEmployee(employees)))}
-            disabled={auth.includes('admin') ? false : true} >Add employee</Button>
-    </Stack>
+    return <EmployeeForm submitFn={(empl: Employee): boolean => {
+        dispatch(employeesAction.addEmployee(empl));
+        return true
+    } }/>
 }

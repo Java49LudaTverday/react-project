@@ -1,17 +1,17 @@
 export function getRandomNumber(minValue: number, maxValue: number, isMinInclusive: boolean = true, isMaxInclusive: boolean = false): number {
     
-     if (!isMinInclusive) {
-        minValue += 1;
-    } 
-     if (isMaxInclusive) {
-        maxValue += 1;
-    }    
-     if (minValue == maxValue ) {
-         throw "min may not be equaled to max";
+    if (!isMinInclusive) {
+        minValue++;
+    }
+    if (isMaxInclusive) {
+        maxValue++;
+    }
+    if (minValue == maxValue) {
+        throw "min may not be equaled to max";
     }
     if (minValue > maxValue) {
         [minValue, maxValue] = [maxValue, minValue];
-    } 
+    }
     return minValue + Math.trunc(Math.random() * (maxValue - minValue));
 }
 

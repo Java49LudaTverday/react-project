@@ -1,22 +1,20 @@
 import { Employee } from "../models/Employee";
+import { getRandomNumber } from "../utils/random";
+import employeeConfig from '../config/employee-config.json';
 const PERCENT = 10;
 const BORDER_SALARY = 20000;
 export class Company {
     private employees: Employee[] = [];
     addEmployee(employee: Employee): void {
+        const idEmployee: number = getRandomNumber(employeeConfig.minId, employeeConfig.maxID);
+        employee.id = idEmployee;
         this.employees.push(employee);
     }
     updateEmployee(empl: Employee): void {
-        const emplUpdatedCopy = { ...empl };
-        if (emplUpdatedCopy != null) {
-            const salary: number = empl.salary;
-            emplUpdatedCopy.salary = updateSalary(salary);
-            const ind: number = this.employees.findIndex(empl => empl.id === emplUpdatedCopy.id);
-            const employeesCopy = JSON.parse(JSON.stringify(this.employees));
-            employeesCopy[ind].salary = emplUpdatedCopy.salary
-            this.employees = employeesCopy;
+        const index = this.employees.findIndex(e => e.id == empl.id);        
+        if (index >= 0 ) {           
+           this.employees[index] = empl;
         }
-
     }
     getEmployee(id: number): Employee | null {
         const ind: number = this.employees.findIndex(empl => empl.id === id);
