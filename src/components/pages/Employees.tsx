@@ -1,8 +1,8 @@
-import { Box, Button, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Employee } from "../../models/Employee";
-import { DataGrid, GridActionsCellItem, GridColumns, GridSelectionModel } from "@mui/x-data-grid";
-import React, { useRef, useState } from "react";
+import { DataGrid, GridActionsCellItem, GridColumns } from "@mui/x-data-grid";
+import React, {  useState } from "react";
 import './table.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { employeesAction } from "../../redux/employeesSlice";
@@ -13,7 +13,7 @@ import { EmployeeForm } from "../forms/EmployeeForm";
 export const Employees: React.FC = () => {
     const auth: string = useSelector<any, string>((state) => state.auth.authenticated);
     const columns = React.useRef<GridColumns>([
-        { field: 'id', headerClassName: 'header', headerName: 'ID', flex: 1, headerAlign: 'center', align: 'center' },
+        { field: 'id', headerClassName: 'header', headerName: 'ID', flex: 0.6, headerAlign: 'center', align: 'center' },
         { field: 'name', headerClassName: 'header', headerName: 'Employee Name', flex: 1, headerAlign: 'center', align: 'center' },
         { field: 'birthDate', headerClassName: 'header', headerName: 'Date of Birth', flex: 1, type: 'date', align: 'center', headerAlign: 'center' },
         { field: 'department', headerClassName: 'header', headerName: 'Department', flex: 1, align: 'center', headerAlign: 'center' },
@@ -42,20 +42,17 @@ export const Employees: React.FC = () => {
 
     return <Box sx={{ height: "70vh", width: "70vw" }}>
         {(!flEdit && !flAdd) && <DataGrid columns={columns.current} rows={employees} />}
-        {flEdit && <EmployeeForm submitFn={function (empl: Employee): boolean {
+        {(flEdit && !flAdd) && <EmployeeForm submitFn={function (empl: Employee): boolean {
             dispatch(employeesAction.updateEmployee(empl));
             setFlEdit(false);
             return true;
         }
         } employeeUpdate={updatedEmployee} />}
-        {flAdd && <EmployeeForm submitFn={function (empl: Employee): boolean {
+        {(flAdd && !flEdit) && <EmployeeForm submitFn={function (empl: Employee): boolean {
             dispatch(employeesAction.addEmployee(empl));
             setFlAdd(false);
             return true;
         }} />}
-
-
-
     </Box>
 }
 
