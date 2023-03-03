@@ -13,6 +13,7 @@ import { Logout } from './components/pages/Logout';
 import { useEffect, useState } from 'react';
 import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
 import { Generation } from './components/pages/Generation';
+import { NavigatorDispatch } from './components/navigators/NavigatorDispatch';
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
     }})
   useEffect(() => {
     if(!auth){
-      setRoutes(layoutConfig.routers.filter(route => route.path == 'login'))
+      setRoutes(layoutConfig.routers.filter(route => route.path == '/login'))
     } else if (!auth.includes('admin')){
       setRoutes(layoutConfig.routers.filter(route => route.flAuth));
     } else {
@@ -37,9 +38,9 @@ function App() {
     {/* {!auth && <Login></Login>} */}
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Navigator routers={routes } />}>
-          <Route path='addEmployee' element={<AddEmployee />} />
+        <Route path='/' element={<NavigatorDispatch routers={routes } />}>          
           <Route index element={<Employees />}></Route>
+          <Route path='addEmployee' element={<AddEmployee />} />
           <Route path='ageStatistics' element={<AgeStatistics />} />
           <Route path='salaryStatistics' element={<SalaryStatistics />} />
           <Route path='generation' element={<Generation />}/>

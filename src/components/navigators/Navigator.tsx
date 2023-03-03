@@ -21,7 +21,7 @@ export const Navigator: React.FC<NavigatorProps> = ({ routers }) => {
         <AppBar sx={{ backgroundColor: "lightgrey" }}>
             <Tabs value={tabNumber >= routers.length ? tabNumber == 0 : tabNumber} onChange={changeTabNumber}>
                 {routers.map((router, index) =>
-                    <Tab component={Link} to={"/" + router.path} label={router.label} key={index} ></Tab>
+                    <Tab component={Link} to={router.path} label={router.label} key={index} ></Tab>
                 )
                 }
             </Tabs>

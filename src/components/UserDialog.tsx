@@ -2,41 +2,40 @@ import { useState } from "react";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 type Props = {
+  title: string;
   messageContent: string;
-  flDisAction: () => void;
-  flAction?: () => void;
+  confirmFn: (isOk: boolean) => void;
+  open: boolean;
   buttonsName?: { agree: string, disagree: string };
 }
 
-export const UserDialog: React.FC<Props> = ({ messageContent, flDisAction, flAction, buttonsName = { agree: 'agree', disagree: 'disagree' } }) => {
-  const [open, setOpen] = useState(true);
-  const handleClose = () => {
-    setOpen(false);
-    flDisAction();
+export const UserDialog: React.FC<Props> = ({ messageContent, confirmFn, title, open, 
+  buttonsName = { agree: 'agree', disagree: 'disagree' } }) => {
+
+  const handleClose = (isOk:boolean) => {   
+      confirmFn(isOk);     
   };
-  const handelContinue = () => {
-    setOpen(false);
-    if (flAction) {
-      flAction();
-    }
-  }
+
 
   return <Dialog
     open={open}
-    onClose={handleClose}
+    onClose={()=> handleClose(false)}
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
+    <DialogTitle id="alert-dialog-title">
+      {title}
+    </DialogTitle>
     <DialogContent>
       <DialogContentText id="alert-dialog-description">
         {messageContent}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handelContinue} autoFocus>
+      <Button onClick={()=>handleClose(true)} autoFocus>
         {buttonsName.agree}
       </Button>
-      <Button onClick={handleClose}>{buttonsName.disagree}</Button>
+      <Button onClick={()=> handleClose(false)}>{buttonsName.disagree}</Button>
     </DialogActions>
   </Dialog>
 }
