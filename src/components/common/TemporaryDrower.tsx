@@ -31,7 +31,7 @@ type Props = {
 }
 
 export const TemporaryDrawer: React.FC<Props> = ({ routes }) => {
-    const [open1, setOpen] = React.useState(false);
+    const [open1, setOpen] = React.useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -41,8 +41,8 @@ export const TemporaryDrawer: React.FC<Props> = ({ routes }) => {
         }
     }, [routes]);
 
-    const handlerDrawerFn = (isOpen: boolean) => {
-        setOpen(isOpen);
+    const handlerDrawerFn = () => {
+        setOpen(!open1);
     };
 
     function getLabelActiveRoute(): string {
@@ -56,9 +56,7 @@ export const TemporaryDrawer: React.FC<Props> = ({ routes }) => {
 
     const getListItems = ()=> {
         return <List>{routes.map((r, index) => <ListItem key={r.label} disablePadding>
-            <ListItemButton onClick={() => {
-                handlerDrawerFn(false);
-            }} >
+            <ListItemButton onClick={handlerDrawerFn} >
                 <NavLink to={r.path} style={{ textDecoration: 'none' }} >
                     <ListItemIcon>
                         {r.icon}
@@ -77,7 +75,7 @@ export const TemporaryDrawer: React.FC<Props> = ({ routes }) => {
         <AppBar position="fixed" open={open1} sx={{ backgroundColor: " #94B0B7", height: { xs: '6vh', sm: "13vh" } }}>
             <Toolbar >
                 <IconButton color="inherit" aria-label="open drawer"
-                    onClick={() => handlerDrawerFn(true)}
+                    onClick={handlerDrawerFn}
                     edge="start" sx={{ mr: 2, mb: 1.3, ...(open1 && { display: 'none' }) }}
                 >
                     <MenuIcon />
@@ -89,7 +87,7 @@ export const TemporaryDrawer: React.FC<Props> = ({ routes }) => {
         </AppBar>
         <Drawer sx={{}}
             anchor="left" open={open1}
-            onClose={() => handlerDrawerFn(false)}
+            onClose={handlerDrawerFn}
         >
             {getListItems()}
         </Drawer>
