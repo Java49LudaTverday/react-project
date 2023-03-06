@@ -1,32 +1,28 @@
 import { Employee } from "../models/Employee";
 import { getRandomNumber } from "../utils/random";
 import employeeConfig from '../config/employee-config.json';
+import {app} from '../config/firebase-config';
+import {collection, CollectionReference,  getFirestore, getDocs, setDoc, doc, deleteDoc} from 'firebase/firestore';
+import { async } from "@firebase/util";
 const PERCENT = 10;
 const BORDER_SALARY = 20000;
+const EMPLOYEES = 'employees';
 export class CompanyFirebase {
-    private employees: Employee[] = [];
-    addEmployee(employee: Employee): void {
+    private employeesCol = collection(getFirestore(app), EMPLOYEES);
+    async addEmployee(employee: Employee): Promise< void> {
         const idEmployee: number = getRandomNumber(employeeConfig.minId, employeeConfig.maxID);
         employee.id = idEmployee;
-        this.employees.push(employee);
+       this.updateEmployee(employee);
     }
-    updateEmployee(empl: Employee): void {
-        const index = this.employees.findIndex(e => e.id == empl.id);        
-        if (index >= 0 ) {           
-           this.employees[index] = empl;
-        }
+   async updateEmployee(empl: Employee): Promise< void> {
+        await setDoc(doc(this.employeesCol, empl.id.toString()), empl);
     }
-    getEmployee(id: number): Employee | null {
-        const ind: number = this.employees.findIndex(empl => empl.id === id);
-        return ind < 0 ? null : this.employees[ind];
+   async  removeEmployee(id: number):Promise<void> {
+        await deleteDoc(doc(this.employeesCol,id.toString()));
     }
-    removeEmployee(id: number): void {
-        const index: number = this.employees.findIndex(e => e.id === id);
-        index >= 0 && this.employees.splice(index, 1);
-    }
-    getAllEmployees(): Employee[] {
-
-        return this.employees.slice();
+    async getAllEmployees(): Promise< Employee[]> {
+        const docsSnapshot = await getDocs(this.employeesCol)   ;
+        return  docsSnapshot.docs.map(doc => doc.data() as Employee);   
     }
 }
 function updateSalary(salary: number): number {
