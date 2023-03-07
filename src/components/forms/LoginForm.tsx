@@ -1,47 +1,50 @@
-import { Alert, Avatar, Box, Button, Collapse, Container, createTheme, CssBaseline, IconButton, Link, TextField, ThemeProvider, Typography } from "@mui/material";
-import {LockOutlined, Close } from "@mui/icons-material";
+import { Alert, Avatar, Box, Button,  Container, createTheme, CssBaseline, IconButton, Link, TextField, ThemeProvider, Typography } from "@mui/material";
+import { LockOutlined, Close } from "@mui/icons-material";
 import { LoginData } from "../../models/LoginData";
-import React from "react";
-import { AuthService } from "../../service/AuthService";
+import React, { useRef, useState } from "react";
+
 
 function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 const theme = createTheme();
 
 type Props = {
-    messageAlert: any;
-    dataFormFn: (dataUser: {userName: any, password: any}) => void
+  dataFormFn: (dataUser: LoginData) => string
 }
 
-export const LoginForm: React.FC <Props> = ({dataFormFn, messageAlert}) => {
+export const LoginForm: React.FC<Props> = ({ dataFormFn }) => {
 
-    const [openAlert, setOpenAlert] = React.useState(false);
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const userName = data.get('userName');
-        const password = data.get('password');
-        dataFormFn({userName: userName, password: password});
-        if(messageAlert){
-            setOpenAlert(true);
-        }
-        console.log({
-          userName: data.get('userName'),
-          password: data.get('password'),
-        });
-      };
+  const [openAlert, setOpenAlert] = useState(false);
+  const messageError = useRef('');
 
-    return <Box>
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const userData: LoginData = {
+      username: data.get('userName') as string,
+      password: data.get('password') as string
+    }
+    messageError.current = dataFormFn(userData);
+    console.log(messageError.current);
+    if (messageError.current) {
+      setOpenAlert(true);
+      setTimeout(()=> {
+        setOpenAlert(false)
+      }, 3000)
+    } 
+    
+  };
+  return <Box>
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -66,7 +69,7 @@ export const LoginForm: React.FC <Props> = ({dataFormFn, messageAlert}) => {
               fullWidth
               id="userName"
               label="User name"
-              name="user name"
+              name="userName"
               autoComplete="user-name"
               autoFocus
             />
@@ -79,7 +82,7 @@ export const LoginForm: React.FC <Props> = ({dataFormFn, messageAlert}) => {
               type="password"
               id="password"
               autoComplete="current-password"
-            />           
+            />
             <Button
               type="submit"
               fullWidth
@@ -90,28 +93,26 @@ export const LoginForm: React.FC <Props> = ({dataFormFn, messageAlert}) => {
             </Button>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-    <Collapse in={openAlert}>
-        <Alert
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setOpenAlert(false);
-              }}
-            >
-              <Close fontSize="inherit" />
-            </IconButton>
-          }
-          sx={{ mb: 2 }}
-        >
-          Close me!
-        </Alert>
-      </Collapse>
-        </Box>
-  
+     {openAlert && <Alert severity="error" 
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={() => {
+              setOpenAlert(false);
+            }}
+          >
+            <Close fontSize="inherit" />
+          </IconButton>
+        }
+        sx={{ mb: 2 }}
+      >
+        {messageError.current}
+      </Alert>} 
+    <Copyright sx={{ mt: 8, mb: 4 }} />
+  </Box>
+
 }

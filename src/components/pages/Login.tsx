@@ -1,15 +1,33 @@
-import { AccountCircle } from "@mui/icons-material";
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
+import { Box, } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux"
+import { LoginData } from "../../models/LoginData";
 import { authActions } from "../../redux/authSlice";
+import { AuthService } from "../../service/AuthService";
+import { LoginForm } from "../forms/LoginForm";
 
 export const Login: React.FC = () => {
+    const auth = new AuthService;
     const dispatch = useDispatch();
-    const [userName, setUserName] = React.useState('');
 
+   function processDataInput (dataUser: LoginData): string {
+    let message: string='';
+    try {
+     auth.login(dataUser);            
+     dispatch(authActions.login(dataUser.username));
+    } catch (error: any){
+     message = error ;
+    } 
+    return message;
+   }
+    
     return <Box sx={{display:'flex', flexDirection:'column'}}>
-        <TextField sx={{marginTop:'5vh'}} variant='outlined' label='User name'
+        <LoginForm  dataFormFn={processDataInput }/>
+    </Box>
+}
+
+
+{/* <TextField sx={{marginTop:'5vh'}} variant='outlined' label='User name'
         InputProps={{
             startAdornment: (
                 <InputAdornment position='start'>
@@ -22,6 +40,4 @@ export const Login: React.FC = () => {
         }}/>
         <Button onClick={(event): void => {
             dispatch(authActions.login(userName))
-        }}>Login</Button>
-    </Box>
-}
+        }}>Login</Button> */}
