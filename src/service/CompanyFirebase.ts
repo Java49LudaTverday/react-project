@@ -1,7 +1,8 @@
 import { Employee } from "../models/Employee";
 import { getRandomNumber } from "../utils/random";
 import employeeConfig from '../config/employee-config.json';
-import {app} from '../config/firebase-config';
+//import {app} from '../config/firebase-config';
+import { app } from "../config/firebase-config";
 import {collection, CollectionReference,  getFirestore, getDocs, setDoc, doc, deleteDoc} from 'firebase/firestore';
 import { async } from "@firebase/util";
 const PERCENT = 10;
