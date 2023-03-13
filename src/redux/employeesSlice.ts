@@ -1,39 +1,118 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Employee } from "../models/Employee";
 import { Company } from "../service/Company";
+import { CompanyFirebase } from "../service/CompanyFirebase";
+import { codeActions } from "./codeSlice";
 
-const company = new Company();
+const company = new CompanyFirebase();
 const initialState: { employees: Employee[] } = {
-    employees: company.getAllEmployees()
+    employees: []
 }
 const employeesSlice = createSlice({
     initialState: initialState,
     name: "employees",
     reducers: {
-        addEmployee: (state, data) => {
-            company.addEmployee(data.payload);
-            state.employees = company.getAllEmployees();
-        },
-        deleteEmployee: (state, data) => {
-            const newEmployees: Employee[] = state.employees.filter(( empl: Employee) => !data.payload.includes(empl.id) );
-            state.employees = newEmployees;
-        },
-        removeEmployee: (state, data) => {
-            company.removeEmployee(data.payload);
-            state.employees = company.getAllEmployees();
-        },
-        updateEmployee: (state, data) => {
-            company.updateEmployee(data.payload);
-            state.employees = company.getAllEmployees();
+        setEmployees: (state, data) => {
+            state.employees = data.payload;
         }
 
     }
 })
-export const employeesAction = employeesSlice.actions;
+
+
 export const employeesReducer = employeesSlice.reducer;
+// export function addEmployee(empl: Employee): (dispatch: any) => void {
+//     return async (dispatch) => {
+
+//     }
+// }
+const actions = employeesSlice.actions;
+export const employeesAction: any = {
+    addEmployee: (empl: Employee) => {
+        return async (dispatch: any) => {
+            try {
+                await company.addEmployee(empl);
+                const employees = await company.getAllEmployees();
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setEmployees(employees));
+            } catch (e) {
+                dispatch(codeActions.setCode("Authorization Error"))
+            }
+        }
+    },
+    updateEmployee: (empl: Employee) => {
+        return async (dispatch: any) => {
+            try {
+                await company.updateEmployee(empl);
+                const employees = await company.getAllEmployees();
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setEmployees(employees));
+            } catch (e) {
+                dispatch(codeActions.setCode("Authorization Error"))
+            }
+
+        }
+    },
+    removeEmployee: (id: number) => {
+        return async (dispatch: any) => {
+            try {
+                await company.removeEmployee(id);
+                const employees = await company.getAllEmployees();
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setEmployees(employees));
+            } catch (e) {
+                dispatch(codeActions.setCode("Authorization Error"))
+            }
+
+        }
+    },
+    getEmployees: () => {
+        return async (dispatch: any) => {
+            try {
+                const employees = await company.getAllEmployees();
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setEmployees(employees));
+            } catch (e) {
+                dispatch(codeActions.setCode("Unknown Error"))
+            }
+
+        }
+    },
+    addBulkEmployees: (employeesAr: Employee[]) => {
+        return async (dispatch: any) => {
+            try {
+                employeesAr.forEach(async (empl) =>
+                    await company.addEmployee(empl)
+                );
+                const employees = await company.getAllEmployees();
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setEmployees(employees));
+            } catch (e) {
+                dispatch(codeActions.setCode("Authorization Error"))
+            }
+
+        }
+    }
+}
 
 
 
+// addEmployee: (state, data) => {
+//             company.addEmployee(data.payload);
+//             state.employees = company.getAllEmployees();
+//         },
+//         deleteEmployee: (state, data) => {
+//             const newEmployees: Employee[] = state.employees.filter(( empl: Employee) => !data.payload.includes(empl.id) );
+//             state.employees = newEmployees;
+//         },
+//         removeEmployee: (state, data) => {
+//             company.removeEmployee(data.payload);
+//             state.employees = company.getAllEmployees();
+//         },
+//         updateEmployee: (state, data) => {
+//             company.updateEmployee(data.payload);
+//             state.employees = company.getAllEmployees();
+//         }
  // let newEmployees: Employee[] = state.employees.slice();
             //   newEmployees.forEach((empl,ind) => data.payload.includes(empl.id)? state.employees.splice(ind,1): empl
             //      )

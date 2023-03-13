@@ -1,24 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { CodeType } from "../models/CodeType";
+import { LoginData } from "../models/LoginData";
+import { AuthServiceFirebase } from "../service/AuthServiceFirebase";
+import { codeActions } from "./codeSlice";
 
-
-const initialState = {
-    authenticated:''
+const authService = new AuthServiceFirebase();
+const initialState: { authenticated: string } = {
+    authenticated: localStorage.getItem('auth') || ''
 };
 const authSlice = createSlice({
     initialState,
     name: 'auth',
     reducers: {
-        login: (state, data) => {
-            if(!state.authenticated){
-                state.authenticated = data.payload;
-            }
-        },
-        logout: (state) => {
-            if(state.authenticated){
-                state.authenticated = '';
-            }
+        setAuth: (state, data) => {
+            state.authenticated = data.payload;
         }
     }
 })
-export const authActions = authSlice.actions;
+
+const actions = authSlice.actions;
+export const authAction: any = {
+    login: (loginData: LoginData) => {
+        return async (dispatch: any) => {
+            try {
+               const authUser = await authService.login(loginData); 
+                localStorage.setItem("auth", authUser);
+                dispatch(codeActions.setCode("OK"));
+                dispatch(actions.setAuth(authUser));
+            } catch(e: any) {
+                dispatch(codeActions.setCode("Credentials Error"));
+
+            }
+           
+        }
+    },
+    logout: () => {
+        return async (dispatch: any) => {
+            await authService.logout();
+            localStorage.setItem('auth', '');
+            dispatch(actions.setAuth(''))
+        }
+    }
+}
 export const authReducer = authSlice.reducer;

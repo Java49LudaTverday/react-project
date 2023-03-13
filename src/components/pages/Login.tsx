@@ -1,37 +1,27 @@
 import { AccountCircle } from "@mui/icons-material";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux"
-import { authActions } from "../../redux/authSlice";
+import { useDispatch, useSelector } from "react-redux"
+import { CodeType } from "../../models/CodeType";
+import { LoginData } from "../../models/LoginData";
+import { authAction } from "../../redux/authSlice";
 import { AuthService } from "../../service/AuthService";
 import { LoginForm } from "../forms/LoginForm";
 
 export const Login: React.FC = () => {
-    const dispatch = useDispatch();
-    const [userName, setUserName] = React.useState('');
-    //const [openAlert, setOpenAlert] = React.useState(false);
-    const message = useRef('');
-
-    function isLogin(dataUser: { userName: any, password: any }) {
-        const Auth = new AuthService;
-        try {
-          Auth.login(dataUser);
-
-        } catch (error) {
-message.current(error);
-
-        }
-
+    //const auth = new AuthService;
+    const dispatch = useDispatch<any>();
+    const error: CodeType = useSelector<any, CodeType>((state) =>
+        state.errorCode.code
+    )
+    function processDataInput(dataUser: LoginData): void {           
+        dispatch(authAction.login(dataUser));
     }
 
 
-
-    return <div>
-        <LoginForm dataFormFn={(dataUser: { userName: any, password: any }) => {
-            setUserName(userName);
-            dispatch(authActions.login(userName));
-        }} messageAlert={message} ></LoginForm>
-    </div>
+return <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+    <LoginForm dataFormFn={processDataInput} code={error} />
+</Box>
 }
 
 

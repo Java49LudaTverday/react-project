@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { FormControl, TextField, InputLabel, Select, Box, MenuItem, Button, Grid, Paper } from "@mui/material";
+import { FormControl, TextField, InputLabel, Select, Box, MenuItem, Button, Grid, Paper, Alert } from "@mui/material";
 import employeeConfig from '../../config/employee-config.json';
 import { Employee } from "../../models/Employee";
 import './employeeForm.css';
+import { codeActions } from "../../redux/codeSlice";
 
 type Props = {
     submitFn: (empl: Employee) => boolean;
     employeeUpdate?: Employee;
+    
 }
 const initialEmployee: Employee = {
     id: 0, birthDate: '', name: '',
@@ -52,7 +54,8 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
     const styleFontSize = {fontSize: '0.7em'};
 
     //  <Box height={{ sx: '80vh', sm: '80vh', md: '50vh' }}  >
-    return <Grid container justifyContent='center' width={{ sx: '80vw', sm: '80vw', md: '40vw' }} height={{ sx: '90vh', sm: '80vh', md: '50vh' }} rowSpacing={3} >
+    return <Box>
+        <Grid container justifyContent='center' width={{ sx: '80vw', sm: '80vw', md: '40vw' }} height={{ sx: '90vh', sm: '80vh', md: '50vh' }} rowSpacing={3} >
         <Grid item xs={10} sm={11} md={12}  >
             <Paper style={styleGrid} elevation={7}  >
                 <form className="form" onSubmit={onSubmitFn} onReset={onResetFn}  >
@@ -113,6 +116,7 @@ export const EmployeeForm: React.FC<Props> = ({ submitFn, employeeUpdate }) => {
                 </form>
             </Paper>
         </Grid>
-    </Grid>
+    </Grid> 
+    </Box>
     //</Box>
 }

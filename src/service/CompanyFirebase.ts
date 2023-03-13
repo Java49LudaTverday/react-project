@@ -4,7 +4,7 @@ import employeeConfig from '../config/employee-config.json';
 //import {app} from '../config/firebase-config';
 import { app } from "../config/firebase-config";
 import {collection, CollectionReference,  getFirestore, getDocs, setDoc, doc, deleteDoc} from 'firebase/firestore';
-import { async } from "@firebase/util";
+
 const PERCENT = 10;
 const BORDER_SALARY = 20000;
 const EMPLOYEES = 'employees';
@@ -13,7 +13,8 @@ export class CompanyFirebase {
     async addEmployee(employee: Employee): Promise< void> {
         const idEmployee: number = getRandomNumber(employeeConfig.minId, employeeConfig.maxID);
         employee.id = idEmployee;
-       this.updateEmployee(employee);
+        await setDoc(doc(this.employeesCol, employee.id.toString()), employee);
+     //  this.updateEmployee(employee);
     }
    async updateEmployee(empl: Employee): Promise< void> {
         await setDoc(doc(this.employeesCol, empl.id.toString()), empl);

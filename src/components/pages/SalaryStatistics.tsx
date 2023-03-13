@@ -8,7 +8,7 @@ import { Statistics } from "../Statistics";
 export const SalaryStatistics: React.FC = () => {
     const employees = useSelector<any, Employee[]>(state => state.employees.employees);
 
-    return <Box sx={{ width:'40vw', height: '40vh' }} >
+    return <Box  >
         {employees.length ?
             <Statistics title={"Salary Statistics"} gridProps={statSalary(employees)}  />:
             <Typography sx={{ fontSize: "1.8em" }}>Not statistics</Typography>}

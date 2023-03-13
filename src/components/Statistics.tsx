@@ -21,10 +21,10 @@ export const Statistics: React.FC<Props> = ({ title, gridProps }) => {
     const rows = React.useRef<GridRowsProp>([
         { id: 1, ...gridProps }
     ])
-    return <Box sx={{ height: {xs:'40vh', md:'40vh'}, 
-    width: {xs: '95vw',sm:'70vh', md: '60vw'} }}>
+    return <Box sx={{ height: {xs:'35vh', sm: '60vh', md:'40vh'}, 
+    width: {xs: '95vw',sm:'70vw', md: '60vw'}, display: 'flex' , flexDirection: 'column', alignItems: 'center' }}  >
         <Typography sx={{ textAlign: "center", fontSize: "2em", fontWeight: "bold", marginBottom:"3vh", color: 'info.main' }}>{title}</Typography>
-        <DataGrid  columns={columns.current} rows={rows.current}   />
+        <DataGrid  columns={columns.current} rows={rows.current} sx={{width: {xs: '95vw',sm:'70vw', md: '60vw'}}}  />
     </Box>
 
 }

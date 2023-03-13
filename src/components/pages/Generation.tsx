@@ -8,16 +8,24 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useState } from "react";
 
 export const Generation: React.FC = () => {
-     const dispatch = useDispatch();
+     const dispatch = useDispatch<any>();
      const [numEmpl, setNumEmpl] = useState(0);
 
      return <Box>
            <GenerationForm submitFn={(numEmployee: number) => {
+               // const employeesAr: Employee[] = 
+               // Array.from(numEmployee as any).map (_ => createRandomEmployee());
+               // dispatch(employeesAction.addBulkEmployees(employeesAr));
                console.log(numEmployee)
-               for (let i: number = 0; i < numEmployee; i++) {
-                    let employeesRandom: Employee = createRandomEmployee();
-                    dispatch(employeesAction.addEmployee(employeesRandom));
-               }
+               // const employeesAr: Employee[] =[]
+               // for (let i: number = 0; i < numEmployee; i++) {
+               //      let employeesRandom: Employee = createRandomEmployee();
+               //      employeesAr.push(employeesRandom);
+               //     // dispatch(employeesAction.addEmployee(employeesRandom));
+               // }
+               const employeesAr: Employee[] = 
+               Array.from({length: numEmployee}, (_)=> createRandomEmployee());
+               dispatch(employeesAction.addBulkEmployees(employeesAr));
                setNumEmpl(numEmployee);
                setTimeout(() => {
                              setNumEmpl(0);

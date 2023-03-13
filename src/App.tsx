@@ -7,43 +7,53 @@ import { Employees } from './components/pages/Employees';
 import { AddEmployee } from './components/pages/AddEmployee';
 import { AgeStatistics } from './components/pages/AgeStatistics';
 import { SalaryStatistics } from './components/pages/SalaryStatistics';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Login } from './components/pages/Login';
 import { Logout } from './components/pages/Logout';
 import { useEffect, useState } from 'react';
 import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
 import { Generation } from './components/pages/Generation';
 import { NavigatorDispatch } from './components/navigators/NavigatorDispatch';
+import { employeesAction } from './redux/employeesSlice';
+
 
 
 function App() {
   const auth: string = useSelector<any, string>(state => state.auth.authenticated);
-  const [routes, setRoutes] = useState <RoutersProps[]>(layoutConfig.routers);
+  console.log(auth);
+  const [routes, setRoutes] = useState<RoutersProps[]>(layoutConfig.routers);
+  const dispatch = useDispatch();
   layoutConfig.routers.forEach((route, index) => {
-    if(route.path == 'logout'){
-      layoutConfig.routers[index].label=`UserName: ${auth} `;
-    }})
+     console.log(route.path);
+    if (route.path.includes('logout') ) {     
+      layoutConfig.routers[index].label = `UserName: ${auth} `;
+    }
+  })
   useEffect(() => {
-    if(!auth){
+    if (!auth) {
       setRoutes(layoutConfig.routers.filter(route => route.path == '/login'))
-    } else if (!auth.includes('admin')){
+    } else if (!auth.includes('admin')) {
       setRoutes(layoutConfig.routers.filter(route => route.flAuth));
     } else {
-      setRoutes(layoutConfig.routers.filter(route=> route.flAdmin));
+      setRoutes(layoutConfig.routers.filter(route => route.flAdmin));
     }
   }, [auth])
 
-
+  useEffect(() => { 
+    if(auth) {
+      dispatch(employeesAction.getEmployees());
+    }
+  }, [auth])
+  
   return <Box>
-    {/* {!auth && <Login></Login>} */}
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<NavigatorDispatch routers={routes } />}>          
+        <Route path='/' element={<NavigatorDispatch routers={routes} />}>
           <Route index element={<Employees />}></Route>
           <Route path='addEmployee' element={<AddEmployee />} />
           <Route path='ageStatistics' element={<AgeStatistics />} />
           <Route path='salaryStatistics' element={<SalaryStatistics />} />
-          <Route path='generation' element={<Generation />}/>
+          <Route path='generation' element={<Generation />} />
           <Route path='logout' element={<Logout />} />
           <Route path='login' element={<Login />} />
 
