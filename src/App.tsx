@@ -14,7 +14,10 @@ import { useEffect, useState } from 'react';
 import { NavigatorProps, RoutersProps } from './models/NavigatorProps';
 import { Generation } from './components/pages/Generation';
 import { NavigatorDispatch } from './components/navigators/NavigatorDispatch';
-import { employeesAction } from './redux/employeesSlice';
+import { company, setEmployees } from './redux/employeesSlice';
+import { Employee } from './models/Employee';
+import { codeActions } from './redux/codeSlice';
+import {Subscription} from 'rxjs';
 
 
 
@@ -40,9 +43,21 @@ function App() {
   }, [auth])
 
   useEffect(() => { 
+  let subscription: Subscription;
     if(auth) {
-      dispatch(employeesAction.getEmployees());
-    }
+     // dispatch(employeesAction.getEmployees());
+     subscription = company.getAllEmployees().subscribe({
+      next: (employees: Employee[]) => {
+        dispatch(setEmployees(employees));
+        dispatch(codeActions.setCode("OK"));
+      },
+      error: (err: any) => {
+        dispatch(codeActions.setCode("Unknown Error"))
+      }
+     }     
+     )
+     }
+     return () =>subscription && subscription.unsubscribe();
   }, [auth])
   
   return <Box>
