@@ -26,13 +26,13 @@ export const employeesReducer = employeesSlice.reducer;
 
 //     }
 // }
-export const {setEmployees} = employeesSlice.actions;
+export const { setEmployees } = employeesSlice.actions;
 export const employeesAction: any = {
     addEmployee: (empl: Employee) => {
         return async (dispatch: any) => {
             try {
                 await company.addEmployee(empl);
-               // const employees = await company.getAllEmployees();
+                // const employees = await company.getAllEmployees();
                 dispatch(codeActions.setCode("OK"));
                 //dispatch(actions.setEmployees(employees));
             } catch (e) {
@@ -46,7 +46,7 @@ export const employeesAction: any = {
                 await company.updateEmployee(empl);
                 //const employees = await company.getAllEmployees();
                 dispatch(codeActions.setCode("OK"));
-              //  dispatch(actions.setEmployees(employees));
+                //  dispatch(actions.setEmployees(employees));
             } catch (e) {
                 dispatch(codeActions.setCode("Authorization Error"))
             }
@@ -57,9 +57,9 @@ export const employeesAction: any = {
         return async (dispatch: any) => {
             try {
                 await company.removeEmployee(id);
-               // const employees = await company.getAllEmployees();
+                // const employees = await company.getAllEmployees();
                 dispatch(codeActions.setCode("OK"));
-              //  dispatch(actions.setEmployees(employees));
+                //  dispatch(actions.setEmployees(employees));
             } catch (e) {
                 dispatch(codeActions.setCode("Authorization Error"))
             }
@@ -80,20 +80,23 @@ export const employeesAction: any = {
     // },
     addBulkEmployees: (employeesAr: Employee[]) => {
         return async (dispatch: any) => {
-            try {
-                employeesAr.forEach(async (empl) =>
-                    await company.addEmployee(empl)
-                );
-               // const employees = await company.getAllEmployees();
-                dispatch(codeActions.setCode("OK"));
-               // dispatch(actions.setEmployees(employees));
-            } catch (e) {
-                dispatch(codeActions.setCode("Authorization Error"))
+            employeesAr.forEach(async (empl) => {
+                try {
+                    await company.addEmployee(empl);
+                    dispatch(codeActions.setCode("OK"));
+                } catch (e) {
+                    dispatch(codeActions.setCode("Authorization Error"))
+                }
             }
+            );
+            // const employees = await company.getAllEmployees();
+
+            // dispatch(actions.setEmployees(employees));
+
 
         }
     }
-    
+
 }
 
 

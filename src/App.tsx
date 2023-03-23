@@ -27,7 +27,7 @@ function App() {
   const [routes, setRoutes] = useState<RoutersProps[]>(layoutConfig.routers);
   const dispatch = useDispatch();
   layoutConfig.routers.forEach((route, index) => {
-     console.log(route.path);
+     //console.log(route.path);
     if (route.path.includes('logout') ) {     
       layoutConfig.routers[index].label = `UserName: ${auth} `;
     }
@@ -49,7 +49,7 @@ function App() {
      subscription = company.getAllEmployees().subscribe({
       next: (employees: Employee[]) => {
         dispatch(setEmployees(employees));
-        dispatch(codeActions.setCode("OK"));
+       // dispatch(codeActions.setCode("OK"));
       },
       error: (err: any) => {
         dispatch(codeActions.setCode("Unknown Error"))
